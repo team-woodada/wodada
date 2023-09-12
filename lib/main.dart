@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:wodada/pages/login_page.dart';
 import 'package:wodada/screens/home_screen.dart';
 import 'package:wodada/screens/login_screen.dart';
 import 'package:wodada/screens/signup_screen.dart';

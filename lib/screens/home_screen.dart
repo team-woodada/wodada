@@ -6,11 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wodada/components/login_platform.dart';
 
-import 'package:wodada/layout/default_layout.dart';
 import 'package:wodada/components/components.dart';
-
-import 'package:wodada/screens/login_screen.dart';
-import 'package:wodada/screens/signup_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -101,20 +97,31 @@ class _LoginState extends State<HomeScreen> {
               Expanded(
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(right: 15.0, left: 15, bottom: 15),
+                      const EdgeInsets.only(right: 10.0, left: 10, bottom: 15),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Align(
                         alignment: Alignment.topLeft, // 화면 상단 좌측으로 정렬
-                        child: ScreenTitle(title: '꽃길만 걷자'),
+                        child: Text(
+                          '꽃길만 걷자, 우리!',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       const Text(
                         '우다다',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: Colors.black,
                           fontSize: 32,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(
