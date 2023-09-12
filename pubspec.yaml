@@ -66,10 +66,8 @@ flutter:
     - assets/images/
     - assets/images/icons/facebook.png
     - assets/images/icons/google.png
-    - assets/images/icons/kakao_login.png
-    - assets/images/icons/naver.png
-    - assets/images/icons/btn1.png
-    - assets/images/icons/btn2.png
+    - assets/images/icons/kakao_btn.png
+    - assets/images/icons/naver_btn.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

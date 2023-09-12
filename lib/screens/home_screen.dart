@@ -96,7 +96,7 @@ class _LoginState extends State<HomeScreen> {
             children: [
               // const TopScreenImage(screenImageName: 'home.jpg'),
               const SizedBox(
-                height: 200,
+                height: 100,
               ),
               Expanded(
                 child: Padding(
@@ -118,7 +118,7 @@ class _LoginState extends State<HomeScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 100,
+                        height: 200,
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -127,8 +127,8 @@ class _LoginState extends State<HomeScreen> {
                           InkWell(
                             onTap: signInWithKakao,
                             child: Image.asset(
-                              'assets/images/icons/btn2.png',
-                              height: 75,
+                              'assets/images/icons/kakao_btn.png',
+                              height: 65,
                             ),
                           ),
 
@@ -138,8 +138,8 @@ class _LoginState extends State<HomeScreen> {
                           InkWell(
                             onTap: signInWithKakao,
                             child: Image.asset(
-                              'assets/images/icons/btn1.png',
-                              height: 75,
+                              'assets/images/icons/naver_btn.png',
+                              height: 65,
                             ),
                           ),
                         ],
