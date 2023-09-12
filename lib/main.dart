@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:firebase_core/firebase_core.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
+import 'package:wodada/pages/login_page.dart';
 import 'package:wodada/screens/home_screen.dart';
 import 'package:wodada/screens/login_screen.dart';
 import 'package:wodada/screens/signup_screen.dart';
@@ -9,6 +9,7 @@ import 'package:wodada/screens/welcome.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
+  KakaoSdk.init(nativeAppKey: '2348db8c58445181cc371817332fafaf');
   runApp(const MyApp());
 }
 

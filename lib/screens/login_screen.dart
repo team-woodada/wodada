@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const ScreenTitle(title: 'Login'),
+                        const ScreenTitle(title: '카카오'),
                         CustomTextField(
                           textField: TextField(
                               onChanged: (value) {
