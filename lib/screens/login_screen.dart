@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        // 뒤로 가기 버튼을 누르면 HomeScreen으로 이동합니다.
         Navigator.popAndPushNamed(context, HomeScreen.id);
         return false;
       },
@@ -71,38 +72,40 @@ class _LoginScreenState extends State<LoginScreen> {
                         CustomBottomScreen(
                           textButton: 'Login',
                           heroTag: 'login_btn',
-                          question: 'Forgot password?',
+                          question: '비밀번호를 잊으셨나요?',
                           buttonPressed: () async {
+                            // 키보드 닫기
                             FocusManager.instance.primaryFocus?.unfocus();
                             setState(() {
-                              _saving = true;
+                              _saving = true; // 로딩 오버레이 표시
                             });
                             try {
+                              // 제공된 자격 증명으로 로그인을 시도합니다.
                               await _auth.signInWithEmailAndPassword(
                                   email: _email, password: _password);
 
                               if (context.mounted) {
                                 setState(() {
-                                  _saving = false;
+                                  _saving = false; // 로딩 오버레이 숨김
                                   Navigator.popAndPushNamed(
                                       context, LoginScreen.id);
                                 });
                                 Navigator.pushNamed(context, WelcomeScreen.id);
                               }
                             } catch (e) {
+                              // 로그인 오류 처리
                               signUpAlert(
                                 context: context,
                                 onPressed: () {
                                   setState(() {
-                                    _saving = false;
+                                    _saving = false; // 로딩 오버레이 숨김
                                   });
                                   Navigator.popAndPushNamed(
                                       context, LoginScreen.id);
                                 },
-                                title: 'WRONG PASSWORD OR EMAIL',
-                                desc:
-                                    'Confirm your email and password and try again',
-                                btnText: 'Try Now',
+                                title: '잘못된 비밀번호 또는 이메일',
+                                desc: '이메일과 비밀번호를 확인하고 다시 시도하세요',
+                                btnText: '다시 시도',
                               ).show();
                             }
                           },
@@ -112,10 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 await FirebaseAuth.instance
                                     .sendPasswordResetEmail(email: _email);
                               },
-                              title: 'RESET YOUR PASSWORD',
-                              desc:
-                                  'Click on the button to reset your password',
-                              btnText: 'Reset Now',
+                              title: '비밀번호 재설정',
+                              desc: '비밀번호를 재설정하려면 버튼을 클릭하세요',
+                              btnText: '지금 재설정',
                               context: context,
                             ).show();
                           },

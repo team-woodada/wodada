@@ -8,7 +8,8 @@ import 'package:wodada/screens/welcome.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  KakaoSdk.init(nativeAppKey: '2348db8c58445181cc371817332fafaf');
+  KakaoSdk.init(nativeAppKey: 'bfa2038b019e28a805be86487dd232e7');
+
   runApp(const MyApp());
 }
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       )),
       initialRoute: HomeScreen.id,
       routes: {
+        // HomeScreen.id: (context) => const HomeScreen(),
         HomeScreen.id: (context) => const HomeScreen(),
         LoginScreen.id: (context) => const LoginScreen(),
         SignUpScreen.id: (context) => const SignUpScreen(),

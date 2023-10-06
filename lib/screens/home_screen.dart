@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
-import 'package:wodada/components/login_platform.dart';
+import 'package:wodada/common/login_platform.dart';
 
 import 'package:wodada/components/components.dart';
 
@@ -18,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _LoginState extends State<HomeScreen> {
   bool _isLogin = false;
-  final LoginPlatform _loginPlatform = LoginPlatform.none;
+  LoginPlatform _loginPlatform = LoginPlatform.none;
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -50,18 +51,27 @@ class _LoginState extends State<HomeScreen> {
     }
   }
 
+  void signInWithNaver() async {
+    final NaverLoginResult result = await FlutterNaverLogin.logIn();
+
+    if (result.status == NaverLoginStatus.loggedIn) {
+      print('accessToken = ${result.accessToken}');
+      print('id = ${result.account.id}');
+      print('email = ${result.account.email}');
+      print('name = ${result.account.name}');
+
+      setState(() {
+        _loginPlatform = LoginPlatform.naver;
+      });
+    }
+  }
+
   void signOut() async {
     switch (_loginPlatform) {
-      case LoginPlatform.facebook:
-        break;
-      case LoginPlatform.google:
-        break;
       case LoginPlatform.kakao:
         signInWithKakao();
         break;
       case LoginPlatform.naver:
-        break;
-      case LoginPlatform.apple:
         break;
       case LoginPlatform.none:
         break;
@@ -143,7 +153,7 @@ class _LoginState extends State<HomeScreen> {
 
                           // // apple button
                           InkWell(
-                            onTap: signInWithKakao,
+                            onTap: signInWithNaver,
                             child: Image.asset(
                               'assets/images/icons/naver_btn.png',
                               height: 65,
@@ -151,41 +161,9 @@ class _LoginState extends State<HomeScreen> {
                           ),
                         ],
                       ),
-
                       const SizedBox(
                         height: 25,
                       ),
-
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     IconButton(
-                      //       onPressed: () {},
-                      //       icon: CircleAvatar(
-                      //         radius: 25,
-                      //         child: Image.asset(
-                      //             'assets/images/icons/facebook.png'),
-                      //       ),
-                      //     ),
-                      //     IconButton(
-                      //       onPressed: () {},
-                      //       icon: CircleAvatar(
-                      //         radius: 25,
-                      //         backgroundColor: Colors.transparent,
-                      //         child:
-                      //             Image.asset('assets/images/icons/google.png'),
-                      //       ),
-                      //     ),
-                      //     IconButton(
-                      //       onPressed: () {},
-                      //       icon: CircleAvatar(
-                      //         radius: 25,
-                      //         child: Image.asset(
-                      //             'assets/images/icons/linkedin.png'),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // )
                     ],
                   ),
                 ),
