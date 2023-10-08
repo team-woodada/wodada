@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'dart:convert';
@@ -6,7 +7,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wodada/common/login_platform.dart';
-
 import 'package:wodada/components/components.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,12 +19,76 @@ class HomeScreen extends StatefulWidget {
 
 class _LoginState extends State<HomeScreen> {
   bool _isLogin = false;
+  String nickName = "";
+  String email = "";
+  String ageRange = "";
+  String gender = "";
   LoginPlatform _loginPlatform = LoginPlatform.none;
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  Future<void> Login() async {
+    // 두 번째 API 호출
+
+    try {
+      Map<String, dynamic> requestData;
+
+      switch (_loginPlatform) {
+        case LoginPlatform.kakao:
+          requestData = {
+            'email': email,
+            'nickname': nickName,
+            'ageRange': ageRange.replaceAll('~', '='),
+            'gender': gender == 'female' ? 'F' : 'M',
+            'provider': _loginPlatform.toString().split('.').last,
+          };
+          break;
+        case LoginPlatform.naver:
+          requestData = {
+            'a': 1,
+          };
+          break;
+        case LoginPlatform.none:
+          requestData = {
+            'a': 1,
+          };
+          break;
+      }
+
+      // 두 번째 API 호출
+      final secondApiResponse = await http.post(
+        Uri.parse('http://10.0.2.2:8080/auth/token'), // API 엔드포인트
+        body: jsonEncode(requestData), // 데이터를 JSON 형식으로 인코딩하여 요청 바디에 전달
+        headers: {
+          'Content-Type': 'application/json', // 요청 헤더 설정
+        },
+      );
+
+      // if (secondApiResponse.statusCode == 200) {
+      // 두 번째 API 응답을 처리
+      final secondApiData = jsonDecode(secondApiResponse.body);
+
+      final accessToken = secondApiData['accessToken'];
+      final refreshToken = secondApiData['refreshToken'];
+
+      print('request Data: $requestData');
+      print('AccessToken: $accessToken');
+      print('RefreshToken: $refreshToken');
+      // 여기에서 두 번째 API 응답을 처리할 수 있음
+      // } else {
+      //   // 두 번째 API 호출이 실패한 경우 오류 처리
+      //   print('API 실패');
+      //   throw Exception('Failed to load second API data');
+      // }
+    } catch (error) {
+      print('API 실패 $error');
+    }
+  }
+
   void signInWithKakao() async {
     try {
+      _loginPlatform = LoginPlatform.kakao;
+
       bool isInstalled = await isKakaoTalkInstalled();
 
       OAuthToken token = isInstalled
@@ -41,11 +105,19 @@ class _LoginState extends State<HomeScreen> {
       );
 
       final profileInfo = json.decode(response.body);
-      print(profileInfo.toString());
+
+      print(profileInfo['kakao_account']['age_range']);
+      print(profileInfo['kakao_account']['gender']);
 
       setState(() {
         _isLogin = true;
+        email = profileInfo['kakao_account']['email'];
+        nickName = profileInfo['properties']['nickname'];
+        ageRange = profileInfo['kakao_account']['age_range'];
+        gender = profileInfo['kakao_account']['gender'];
       });
+
+      await Login();
     } catch (error) {
       print('카카오톡으로 로그인 실패 $error');
     }
