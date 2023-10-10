@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wodada/common/login_platform.dart';
 import 'package:wodada/components/components.dart';
+
+var dio = Dio();
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -38,14 +40,18 @@ class _LoginState extends State<HomeScreen> {
           requestData = {
             'email': email,
             'nickname': nickName,
-            'ageRange': ageRange.replaceAll('~', '='),
+            'ageRange': ageRange.replaceAll('~', '-'),
             'gender': gender == 'female' ? 'F' : 'M',
             'provider': _loginPlatform.toString().split('.').last,
           };
           break;
         case LoginPlatform.naver:
           requestData = {
-            'a': 1,
+            'email': email,
+            'nickname': nickName,
+            'ageRange': ageRange,
+            'gender': gender,
+            'provider': _loginPlatform.toString().split('.').last,
           };
           break;
         case LoginPlatform.none:
@@ -71,9 +77,9 @@ class _LoginState extends State<HomeScreen> {
       final accessToken = secondApiData['accessToken'];
       final refreshToken = secondApiData['refreshToken'];
 
-      print('request Data: $requestData');
       print('AccessToken: $accessToken');
       print('RefreshToken: $refreshToken');
+      print('request Data: $requestData');
       // 여기에서 두 번째 API 응답을 처리할 수 있음
       // } else {
       //   // 두 번째 API 호출이 실패한 경우 오류 처리
@@ -87,8 +93,6 @@ class _LoginState extends State<HomeScreen> {
 
   void signInWithKakao() async {
     try {
-      _loginPlatform = LoginPlatform.kakao;
-
       bool isInstalled = await isKakaoTalkInstalled();
 
       OAuthToken token = isInstalled
@@ -110,6 +114,7 @@ class _LoginState extends State<HomeScreen> {
       print(profileInfo['kakao_account']['gender']);
 
       setState(() {
+        _loginPlatform = LoginPlatform.kakao;
         _isLogin = true;
         email = profileInfo['kakao_account']['email'];
         nickName = profileInfo['properties']['nickname'];
@@ -124,17 +129,21 @@ class _LoginState extends State<HomeScreen> {
   }
 
   void signInWithNaver() async {
-    final NaverLoginResult result = await FlutterNaverLogin.logIn();
+    final NaverLoginResult result = await FlutterNaverLogin.logIn().timeout(
+        const Duration(seconds: 10),
+        onTimeout: () => null as NaverLoginResult);
 
     if (result.status == NaverLoginStatus.loggedIn) {
-      print('accessToken = ${result.accessToken}');
-      print('id = ${result.account.id}');
-      print('email = ${result.account.email}');
-      print('name = ${result.account.name}');
-
       setState(() {
         _loginPlatform = LoginPlatform.naver;
+        _isLogin = true;
+        email = result.account.email;
+        nickName = result.account.nickname;
+        ageRange = result.account.age;
+        gender = result.account.gender;
       });
+
+      await Login();
     }
   }
 
@@ -144,6 +153,7 @@ class _LoginState extends State<HomeScreen> {
         signInWithKakao();
         break;
       case LoginPlatform.naver:
+        await FlutterNaverLogin.logOut();
         break;
       case LoginPlatform.none:
         break;

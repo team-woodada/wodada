@@ -8,6 +8,16 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:hardwareAccelerated="true">
+
+                    <meta-data
+              android:name="com.naver.sdk.clientId"
+              android:value="@string/client_id" />
+            <meta-data
+              android:name="com.naver.sdk.clientSecret"
+              android:value="@string/client_secret" />
+            <meta-data
+              android:name="com.naver.sdk.clientName"
+              android:value="@string/client_name" />     
         
         <activity
             android:name=".MainActivity"
@@ -24,16 +34,7 @@
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
-              />
-            <meta-data
-              android:name="com.naver.sdk.clientId"
-              android:value="@string/client_id" />
-            <meta-data
-              android:name="com.naver.sdk.clientSecret"
-              android:value="@string/client_secret" />
-            <meta-data
-              android:name="com.naver.sdk.clientName"
-              android:value="@string/client_name" />            
+              />       
         <!--</activity>
         <activity android:name="com.kakao.skd.flutter.AuthCodeCustomTabsActivity" android:exported="true">-->
             <intent-filter>
