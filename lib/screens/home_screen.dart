@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:wodada/common/login_platform.dart';
 import 'package:wodada/components/components.dart';
+import 'package:wodada/layout/default_layout.dart';
 
 var dio = Dio();
 
@@ -174,83 +175,84 @@ class _LoginState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // const TopScreenImage(screenImageName: 'home.jpg'),
-              const SizedBox(
-                height: 100,
-              ),
-              Expanded(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(right: 10.0, left: 10, bottom: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Align(
-                        alignment: Alignment.topLeft, // 화면 상단 좌측으로 정렬
-                        child: Text(
-                          '꽃길만 걷자, 우리!',
+    return DefaultLayout(
+      child: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // const TopScreenImage(screenImageName: 'home.jpg'),
+                const SizedBox(
+                  height: 100,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        right: 10.0, left: 10, bottom: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Align(
+                          alignment: Alignment.topLeft, // 화면 상단 좌측으로 정렬
+                          child: Text(
+                            '꽃길만 걷자, 우리!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          '우다다',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 32,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Text(
-                        '우다다',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 200,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // google button
-                          InkWell(
-                            onTap: signInWithKakao,
-                            child: Image.asset(
-                              'assets/images/icons/kakao_btn.png',
-                              height: 65,
-                            ),
+                            color: Colors.black,
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
                           ),
-
-                          const SizedBox(width: 15),
-
-                          // // apple button
-                          InkWell(
-                            onTap: signInWithNaver,
-                            child: Image.asset(
-                              'assets/images/icons/naver_btn.png',
-                              height: 65,
+                        ),
+                        const SizedBox(
+                          height: 200,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // google button
+                            InkWell(
+                              onTap: signInWithKakao,
+                              child: Image.asset(
+                                'assets/images/icons/kakao_btn.png',
+                                height: 65,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 25,
-                      ),
-                    ],
+
+                            const SizedBox(width: 15),
+
+                            // // apple button
+                            InkWell(
+                              onTap: signInWithNaver,
+                              child: Image.asset(
+                                'assets/images/icons/naver_btn.png',
+                                height: 65,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
